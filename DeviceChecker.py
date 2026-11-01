@@ -65,7 +65,7 @@ logger = logging.getLogger(__name__)
 logging.getLogger("telegram").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
-BOT_TOKEN = "8692114721:AAFm_TAgpgZmG6Oshlua5VrAaqgO7gU44_M"
+BOT_TOKEN = "8692114721:AAEmP2EUqGBmCFkzN0dMhiuvReqRYxFGWLo"
 ADMIN_IDS = [8477982865]
 KEYS_FILE = "keys.json"
 USERS_FILE = "users.json"
