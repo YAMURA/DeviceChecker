@@ -22,7 +22,6 @@ import subprocess
 import socket
 import threading
 from concurrent.futures import ThreadPoolExecutor
-from telegram.error import NetworkError, TimedOut
 
 
 def _ensure_requirements() -> None:
@@ -66,7 +65,7 @@ logger = logging.getLogger(__name__)
 logging.getLogger("telegram").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
-BOT_TOKEN = "8692114721:AAEmP2EUqGBmCFkzN0dMhiuvReqRYxFGWLo"
+BOT_TOKEN = "8692114721:AAG-cgMtfuwO7vZfbiTm-b71UZkMzSDkBUE"
 ADMIN_IDS = [8477982865]
 KEYS_FILE = "keys.json"
 USERS_FILE = "users.json"
@@ -4012,23 +4011,15 @@ async def post_init(application: Application) -> None:
     except Exception as e:
         logger.error(f"Failed to delete webhook: {e}")
 
-async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if isinstance(context.error, (NetworkError, TimedOut)):
-        logger.warning("Transient network error during polling: %s", context.error)
-        return
-    logger.error("Exception while handling an update:", exc_info=context.error)
-    
+
 def main():
     bot = MLBBBot()
     application = (
         Application.builder()
         .token(BOT_TOKEN)
         .post_init(post_init)
-        .get_updates_read_timeout(60)   # > Telegram's ~30s long-poll
-        .get_updates_connect_timeout(15)
-        .get_updates_pool_timeout(10)
         .build()
-)
+    )
     application.add_handler(CommandHandler("start", bot.start))
     application.add_handler(CommandHandler("help", bot.help))
     application.add_handler(CommandHandler("redeem", bot.redeem_cmd))
